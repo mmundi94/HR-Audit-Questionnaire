@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wages and Salaries Audit Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0b5394; --plum:#741b47; --teal:#134f5c; --purple:#582fc1; --red:#bf092f; --yellow:#FFFF02;
+  --ink:#16182b; --muted:#5d6177; --line:#e3e5ee; --bg:#f4f6fb; --card:#ffffff; --na:#9aa0b4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-weight:400;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+b,strong,h1,h2,h3,h4{font-weight:700}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* Top progress bar */
+.topbar{position:fixed;inset:0 0 auto;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transform:translateY(-100%);transition:transform .35s ease}
+.topbar.show{transform:none}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.topbar .name{font-weight:700;color:var(--blue);white-space:nowrap}
+.topbar .track{flex:1;height:8px;background:#e9ebf3;border-radius:99px;overflow:hidden}
+.topbar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple),var(--plum));border-radius:99px;transition:width .5s ease}
+.topbar .count{font-size:.9rem;color:var(--muted);white-space:nowrap}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;color:#fff;overflow:hidden;
+  background:var(--blue);
+  background-image:
+    radial-gradient(circle at 85% 15%, rgba(88,47,193,.9), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(19,79,92,.95), transparent 50%),
+    radial-gradient(circle at 70% 95%, rgba(116,27,71,.85), transparent 45%);}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 100%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-top:80px;padding-bottom:80px}
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.08;letter-spacing:-.02em;margin-bottom:22px}
+.hero h1 .line{display:block}
+.hero .lead{font-size:1.1rem;max-width:34ch;opacity:.92;margin-bottom:34px}
+.presenter{display:inline-flex;align-items:center;gap:14px;padding:10px 20px 10px 10px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);margin-bottom:34px}
+.presenter .av{width:46px;height:46px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;font-weight:700}
+.presenter small{display:block;font-size:.8rem;opacity:.8;line-height:1.2}
+.presenter span{font-weight:700;font-size:1.05rem}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:14px;font-weight:700;font-size:1rem;transition:transform .2s ease,box-shadow .2s ease,background .2s}
+.btn-yellow{background:var(--yellow);color:var(--ink);box-shadow:0 10px 30px -10px rgba(255,255,2,.6)}
+.btn-yellow:hover{transform:translateY(-2px)}
+.btn-ghost{border:2px solid rgba(255,255,255,.5);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+
+/* Payslip card in hero */
+.slip{background:#fff;color:var(--ink);border-radius:18px 18px 0 0;padding:28px 28px 34px;position:relative;box-shadow:0 40px 80px -30px rgba(0,0,0,.55);transform:rotate(2deg)}
+.slip::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:14px;background:radial-gradient(circle at 10px 0,transparent 9px,#fff 10px) repeat-x;background-size:20px 14px}
+.slip-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px dashed var(--line);padding-bottom:16px;margin-bottom:16px}
+.slip-head h3{font-size:1.15rem;line-height:1.3}
+.slip-head p{font-size:.85rem;color:var(--muted)}
+.slip-stamp{font-size:.75rem;font-weight:700;color:var(--red);border:2px solid var(--red);border-radius:8px;padding:4px 10px;transform:rotate(-6deg);white-space:nowrap}
+.slip-row{display:grid;grid-template-columns:14px 1fr auto;gap:12px;align-items:center;padding:9px 0;font-size:.95rem}
+.slip-row i{width:14px;height:14px;border-radius:4px}
+.slip-row .v{font-weight:700;font-variant-numeric:tabular-nums}
+.slip-row .mini{grid-column:2 / 4;height:5px;background:#eef0f6;border-radius:99px;overflow:hidden;margin-top:-4px}
+.slip-row .mini span{display:block;height:100%;width:0;transition:width .6s ease}
+.slip-total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);margin-top:14px;padding-top:14px}
+.slip-total b{font-size:2rem;font-variant-numeric:tabular-nums}
+.slip-total span{font-size:.95rem;color:var(--muted)}
+
+/* Hero load sequence */
+@media (prefers-reduced-motion:no-preference){
+  .hero .intro > *{opacity:0;transform:translateY(18px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero .intro > *:nth-child(2){animation-delay:.12s}
+  .hero .intro > *:nth-child(3){animation-delay:.24s}
+  .hero .intro > *:nth-child(4){animation-delay:.36s}
+  .slip{opacity:0;animation:drop 1s .45s cubic-bezier(.2,.8,.2,1) forwards}
+}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-40px) rotate(-4deg)}to{opacity:1;transform:rotate(2deg)}}
+
+/* Sections */
+section.block{padding:96px 0}
+.h2{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15;letter-spacing:-.01em;margin-bottom:16px;max-width:22ch}
+.sub{color:var(--muted);font-size:1.08rem;max-width:62ch}
+
+/* Strategy */
+.strategy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.goal{background:var(--card);border-radius:20px;padding:28px;border:1px solid var(--line);position:relative;overflow:hidden}
+.goal::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:var(--c)}
+.goal h3{font-size:1.2rem;line-height:1.3;margin:6px 0 10px;color:var(--c)}
+.goal p{color:var(--muted);font-size:.97rem;margin-bottom:18px}
+.goal .links{display:flex;gap:8px;flex-wrap:wrap}
+.goal .links span{font-size:.8rem;font-weight:700;padding:5px 12px;border-radius:99px;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.objective{margin-top:28px;background:var(--ink);color:#fff;border-radius:20px;padding:26px 30px;display:flex;gap:20px;align-items:center}
+.objective .mark{flex:none;width:52px;height:52px;border-radius:14px;background:var(--yellow);color:var(--ink);display:grid;place-items:center}
+.objective p{font-size:1.02rem}
+.objective b{color:var(--yellow)}
+
+/* Rating legend */
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.legend div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:center}
+.legend .chip{flex:none}
+.legend p{font-size:.88rem;color:var(--muted);line-height:1.4}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:76px;padding:7px 14px;border-radius:10px;font-weight:700;font-size:.88rem}
+.c-yes{background:var(--teal);color:#fff}
+.c-partial{background:var(--yellow);color:var(--ink)}
+.c-no{background:var(--red);color:#fff}
+.c-na{background:#e6e8f0;color:var(--muted)}
+
+/* Audit area */
+#audit{background:#fff;border-top:1px solid var(--line)}
+.tabs{position:sticky;top:60px;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line);margin-top:36px}
+.tabs .row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.tab{text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,background .2s,transform .2s}
+.tab:hover{transform:translateY(-2px)}
+.tab .t{display:flex;gap:10px;align-items:center}
+.tab .n{flex:none;width:28px;height:28px;border-radius:8px;background:var(--c);color:#fff;font-weight:700;font-size:.85rem;display:grid;place-items:center}
+.tab b{font-size:.92rem;line-height:1.2;display:block}
+.tab small{font-size:.75rem;color:var(--muted);display:block;line-height:1.2}
+.tab .bar{height:5px;background:#eef0f6;border-radius:99px;overflow:hidden}
+.tab .bar i{display:block;height:100%;width:0;background:var(--c);transition:width .5s ease}
+.tab.active{border-color:var(--c);background:color-mix(in srgb,var(--c) 7%,#fff)}
+
+.panel{padding:40px 0 100px}
+.panel.in{animation:panelIn .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes panelIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.panel.in{animation:none}}
+
+.dhead{border-radius:24px;padding:34px 36px;color:#fff;background:var(--c);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;position:relative;overflow:hidden}
+.dhead::after{content:attr(data-num);position:absolute;right:170px;bottom:-60px;font-size:15rem;font-weight:700;line-height:1;opacity:.08;pointer-events:none}
+.dhead .lbl{font-size:.9rem;opacity:.85}
+.dhead h2{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.15;margin:4px 0 12px}
+.dhead .ask{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:700;padding:6px 14px;border-radius:10px;margin-bottom:14px}
+.dhead p{max-width:60ch;opacity:.92}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .bg{stroke:rgba(255,255,255,.22)}
+.ring .fg{transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .val b{font-size:1.8rem;line-height:1}
+.ring .val small{display:block;font-size:.72rem;opacity:.85;margin-top:4px}
+
+.qs{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.q{display:grid;grid-template-columns:48px 1fr;gap:18px;padding:22px 24px;border-radius:18px;border:2px solid var(--line);background:#fff;transition:border-color .25s,background .25s}
+.q-num{width:48px;height:48px;border-radius:14px;background:#f0f2f8;color:var(--ink);font-weight:700;display:grid;place-items:center;transition:background .25s,color .25s}
+.q-text{font-size:1.04rem;margin-bottom:14px}
+.q-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.seg{display:inline-flex;gap:6px;background:#f2f4f9;padding:5px;border-radius:13px;flex-wrap:wrap}
+.seg button{padding:8px 16px;border-radius:9px;font-weight:700;font-size:.88rem;color:var(--muted);transition:background .2s,color .2s,transform .15s}
+.seg button:hover{background:#fff;color:var(--ink)}
+.seg button:active{transform:scale(.95)}
+.seg button[aria-pressed="true"].yes{background:var(--teal);color:#fff}
+.seg button[aria-pressed="true"].partial{background:var(--yellow);color:var(--ink)}
+.seg button[aria-pressed="true"].no{background:var(--red);color:#fff}
+.seg button[aria-pressed="true"].na{background:var(--na);color:#fff}
+.note-btn{font-size:.88rem;font-weight:700;color:var(--c);padding:6px 4px}
+.note{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.note > div{overflow:hidden}
+.note.open{grid-template-rows:1fr}
+.note textarea{width:100%;margin-top:14px;min-height:76px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:.94rem;resize:vertical;color:var(--ink)}
+.note textarea:focus{outline:none;border-color:var(--c)}
+.q.s-yes{border-color:color-mix(in srgb,var(--teal) 45%,#fff);background:color-mix(in srgb,var(--teal) 4%,#fff)}
+.q.s-yes .q-num{background:var(--teal);color:#fff}
+.q.s-partial{border-color:#e6e600;background:#fffff2}
+.q.s-partial .q-num{background:var(--yellow)}
+.q.s-no{border-color:color-mix(in srgb,var(--red) 40%,#fff);background:color-mix(in srgb,var(--red) 4%,#fff)}
+.q.s-no .q-num{background:var(--red);color:#fff}
+.q.s-na .q-num{background:var(--na);color:#fff}
+
+.evidence{margin-top:28px;border-radius:20px;padding:26px 28px;background:color-mix(in srgb,var(--c) 6%,#fff);border:2px dashed color-mix(in srgb,var(--c) 35%,#fff)}
+.evidence h3{font-size:1.1rem;margin-bottom:4px;color:var(--c)}
+.evidence p{font-size:.92rem;color:var(--muted);margin-bottom:16px}
+.ev-list{display:flex;flex-wrap:wrap;gap:10px}
+.ev{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;background:#fff;border:2px solid var(--line);font-size:.9rem;transition:all .2s}
+.ev .box{width:18px;height:18px;border-radius:5px;border:2px solid var(--na);display:grid;place-items:center;transition:all .2s}
+.ev.on{border-color:var(--c);color:var(--c);font-weight:700}
+.ev.on .box{background:var(--c);border-color:var(--c)}
+.ev.on .box::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+
+.pager{display:flex;justify-content:space-between;margin-top:34px;gap:12px}
+.pbtn{padding:13px 24px;border-radius:14px;font-weight:700;border:2px solid var(--line);transition:all .2s}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.main{background:var(--c,var(--ink));color:#fff;border-color:transparent}
+.pbtn.main:hover{filter:brightness(1.1)}
+.pbtn[hidden]{display:none}
+
+/* Results */
+.rhead{border-radius:24px;padding:40px;color:#fff;background:var(--ink);display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;background-image:radial-gradient(circle at 95% 10%,rgba(88,47,193,.7),transparent 50%),radial-gradient(circle at 60% 120%,rgba(11,83,148,.8),transparent 55%)}
+.rhead .ring{width:170px;height:170px}
+.rhead .ring .val b{font-size:2.4rem}
+.status{display:inline-block;padding:6px 16px;border-radius:10px;font-weight:700;margin-bottom:12px}
+.rhead h2{font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.15;margin-bottom:10px}
+.rhead p{opacity:.9;max-width:56ch}
+.rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+.rcard{border:2px solid var(--line);border-radius:18px;padding:22px 24px}
+.rcard .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.rcard h4{font-size:1.02rem;color:var(--c)}
+.rcard .pct{font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums}
+.rcard .bar{height:10px;background:#eef0f6;border-radius:99px;overflow:hidden}
+.rcard .bar i{display:block;height:100%;width:0;background:var(--c);border-radius:99px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.rcard .meta{display:flex;gap:14px;margin-top:12px;font-size:.84rem;color:var(--muted);flex-wrap:wrap}
+.rcard .meta span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;background:var(--d)}
+.actions{margin-top:34px}
+.actions h3{font-size:1.35rem;margin-bottom:6px}
+.actions > p{color:var(--muted);margin-bottom:18px}
+.act{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;padding:16px 20px;border-radius:14px;border:1px solid var(--line);margin-bottom:10px;background:#fff}
+.act .n{font-weight:700;color:var(--muted);min-width:28px}
+.act .d{font-size:.8rem;font-weight:700;color:var(--c);display:block;margin-bottom:2px}
+.act .nt{font-size:.88rem;color:var(--muted);margin-top:4px}
+.empty{padding:26px;border-radius:16px;background:#f4f6fb;color:var(--muted);text-align:center}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+
+footer{background:var(--ink);color:#fff;padding:40px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer p{opacity:.8;font-size:.92rem}
+footer b{color:var(--yellow)}
+
+@media (max-width:960px){
+  .hero .wrap{grid-template-columns:1fr;gap:48px}
+  .slip{max-width:460px}
+  .strategy-grid{grid-template-columns:1fr}
+  .legend{grid-template-columns:repeat(2,1fr)}
+  .tabs .row{grid-template-columns:repeat(5,minmax(150px,1fr));overflow-x:auto;padding-bottom:4px}
+  .rgrid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:0 18px}
+  section.block{padding:70px 0}
+  .legend{grid-template-columns:1fr}
+  .dhead{grid-template-columns:1fr;padding:28px 24px}
+  .dhead::after{display:none}
+  .q{grid-template-columns:1fr;gap:12px;padding:18px}
+  .rhead{grid-template-columns:1fr;padding:28px 24px;justify-items:start}
+  .topbar .name{display:none}
+  .act{grid-template-columns:auto 1fr}
+  .act .chip{grid-column:2}
+}
+@media print{
+  .topbar,.tabs,.pager,.tools,.hero .cta{display:none!important}
+  .hero{min-height:auto}
+  .q,.rcard{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="wrap">
+    <span class="name">Wages and Salaries Audit</span>
+    <div class="track"><div class="fill" id="topFill"></div></div>
+    <span class="count" id="topCount">0 of 27 answered</span>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="intro">
+      <h1><span class="line">Wages and</span><span class="line">Salaries</span><span class="line">Audit Checklist</span></h1>
+      <p class="lead">A practical checklist to test whether our pay system is in place, written down, complete, and kept up to date.</p>
+      <div class="presenter">
+        <div class="av">YM</div>
+        <div><small>Presented by</small><span>Yasmine Magdy</span></div>
+      </div>
+      <div class="cta">
+        <a class="btn btn-yellow" href="#audit">Start the audit</a>
+        <a class="btn btn-ghost" href="#strategy">Why it matters</a>
+      </div>
+    </div>
+
+    <div class="slip" aria-label="Live audit summary">
+      <div class="slip-head">
+        <div>
+          <h3>Audit summary</h3>
+          <p>Updates as you answer</p>
+        </div>
+        <div class="slip-stamp" id="slipStamp">Not started</div>
+      </div>
+      <div id="slipRows"></div>
+      <div class="slip-total">
+        <span>Overall score</span>
+        <b id="slipTotal">0%</b>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="block" id="strategy">
+  <div class="wrap">
+    <h2 class="h2">How this audit supports our strategy</h2>
+    <p class="sub">Our organization's strategy for the next three years is built on three goals. Pay plays a part in each one. If our pay system is weak, all three goals are at risk. This checklist helps us see where we stand.</p>
+
+    <div class="strategy-grid">
+      <div class="goal" style="--c:#0b5394">
+        <h3>Attract and keep skilled people</h3>
+        <p>Salaries that match the market help us hire the right people and keep them longer.</p>
+        <div class="links"><span>Process components</span><span>Review and improvement</span></div>
+      </div>
+      <div class="goal" style="--c:#741b47">
+        <h3>Build a fair and open workplace</h3>
+        <p>Clear salary grades and objective pay decisions build trust and support equal pay for equal work.</p>
+        <div class="links"><span>Policies and documents</span><span>Process components</span></div>
+      </div>
+      <div class="goal" style="--c:#134f5c">
+        <h3>Run efficient, well-controlled operations</h3>
+        <p>Accurate, on-time payroll with proper approvals protects our costs and lowers legal risk.</p>
+        <div class="links"><span>Existence</span><span>Policies and documents</span></div>
+      </div>
+    </div>
+
+    <div class="objective">
+      <div class="mark" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5"/></svg>
+      </div>
+      <p><b>Audit objective:</b> To check whether our wages and salaries system exists, is documented, is complete, fair, and accurate, follows the law, and is reviewed and improved over time.</p>
+    </div>
+
+    <div class="legend">
+      <div><span class="chip c-yes">Yes</span><p>In place and working well. Counts 2 points.</p></div>
+      <div><span class="chip c-partial">Partial</span><p>Exists but is incomplete or not applied fully. Counts 1 point.</p></div>
+      <div><span class="chip c-no">No</span><p>Missing or not working. Counts 0 points.</p></div>
+      <div><span class="chip c-na">N/A</span><p>Does not apply. Left out of the score.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="audit">
+  <div class="wrap">
+    <h2 class="h2">The checklist</h2>
+    <p class="sub">Four dimensions, 27 checks. Rate each item, add notes where useful, and mark the evidence you reviewed. Use the left and right arrow keys to move between dimensions.</p>
+  </div>
+  <nav class="tabs" aria-label="Audit dimensions">
+    <div class="wrap"><div class="row" id="tabs"></div></div>
+  </nav>
+  <div class="wrap">
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Wages and Salaries Audit Checklist</p>
+    <p>Presented by <b>Yasmine Magdy</b></p>
+  </div>
+</footer>
+
+<script>
+const DIMS = [
+  {
+    color:'#0b5394', title:'Existence', short:'Existence', ask:'Is it available?',
+    obj:'To check whether a formal wages and salaries system exists in our organization.',
+    qs:[
+      'Does our organization have a formal wages and salaries system, with a salary structure that covers all job levels and grades?',
+      'Is there a formal job evaluation system used to set salary levels?',
+      'Is a specific department or person responsible for managing wages and salaries?',
+      'Does our organization have an established payroll system?',
+      'Is there a defined method for setting starting salaries and for granting salary increases and adjustments?',
+      'Is there a formal channel for employees to raise complaints about pay?'
+    ],
+    ev:['Salary structure','Job grading system','Organizational chart','Payroll system records','Employee complaint records']
+  },
+  {
+    color:'#741b47', title:'Policies and Documents', short:'Documentation', ask:'Is it documented?',
+    obj:'To check whether pay practices are guided by formal, written, and approved policies and procedures.',
+    qs:[
+      'Is there a written and formally approved wages and salaries policy?',
+      'Are salary grades, salary ranges, and starting salary criteria clearly documented?',
+      'Are the procedures for salary increases, overtime, and deductions documented and in line with labor law?',
+      'Are payroll preparation, review, and approval responsibilities clearly documented?',
+      'Are exceptions to the approved salary structure documented, justified, and authorized?',
+      'Are salary policies shared with relevant employees, and are salary records kept secure with access controls?'
+    ],
+    ev:['Wages and salaries policy','Payroll procedures','Salary scale','Employment contracts','Overtime policy','Approval records','Salary adjustment forms']
+  },
+  {
+    color:'#134f5c', title:'Process Components', short:'Components', ask:'What does it include?',
+    obj:'To check whether the pay system includes all key parts and whether these parts work as intended.',
+    qs:[
+      'Is the salary structure based on job duties, qualifications, skills, and experience, and aligned with job evaluation results?',
+      'Are salary ranges defined with minimum, midpoint, and maximum levels?',
+      'Are salaries compared against external market data to stay competitive?',
+      'Do employees doing work of equal value receive equal pay, based on objective and non-discriminatory criteria?',
+      'Does our organization meet minimum wage rules, and are overtime and deductions calculated accurately and legally?',
+      'Are salary increases linked to clear criteria such as performance, promotion, or market changes?',
+      'Is payroll data reviewed and approved by someone independent, and checked against attendance records and contracts before payment?',
+      'Are employees paid accurately and on time, with payslips that show pay components, deductions, and net pay?',
+      'Are payroll errors and pay complaints investigated and resolved promptly?'
+    ],
+    ev:['Job evaluation reports','Salary surveys','Payroll records','Attendance records','Payslips','Employment contracts','Performance appraisal records','Payroll reconciliation reports','Complaint records']
+  },
+  {
+    color:'#582fc1', title:'Review and Improvement', short:'Review', ask:'Is it updated?',
+    obj:'To check whether the pay system is reviewed and updated regularly so it stays relevant and effective.',
+    qs:[
+      'Is the wages and salaries policy reviewed and updated on a set schedule?',
+      'Are salary structures reviewed against market trends, inflation, and cost of living?',
+      'Are pay equity analyses carried out regularly to find and close unjustified pay gaps?',
+      'Are changes in labor laws and minimum wage rules reflected in the pay system promptly?',
+      'Are key indicators tracked for payroll accuracy, payment timeliness, pay competitiveness, and employee satisfaction with pay?',
+      'Are corrective action plans created, assigned to owners, and followed up after salary reviews or audits?'
+    ],
+    ev:['Salary review reports','Updated policies','Market salary surveys','Pay equity analysis reports','KPI reports','Previous audit reports','Corrective action plans']
+  }
+];
+
+const STATUS = [
+  {k:'yes',label:'Yes',pts:2},
+  {k:'partial',label:'Partial',pts:1},
+  {k:'no',label:'No',pts:0},
+  {k:'na',label:'N/A',pts:null}
+];
+
+// Question numbering
+let n = 0;
+DIMS.forEach(d => { d.start = n + 1; d.items = d.qs.map(t => ({n:++n, text:t})); });
+const TOTAL = n;
+
+const KEY = 'ws-audit-v1';
+let state = {a:{}, notes:{}, ev:{}};
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.a) state = s; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+let current = 0;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function stats(items){
+  let pts=0, max=0, answered=0, c={yes:0,partial:0,no:0,na:0};
+  items.forEach(it => {
+    const s = state.a[it.n];
+    if (!s) return;
+    answered++; c[s]++;
+    const st = STATUS.find(x => x.k === s);
+    if (st.pts !== null){ pts += st.pts; max += 2; }
+  });
+  return {pct: max ? Math.round(pts/max*100) : 0, answered, total: items.length, c, scored: max>0};
+}
+const allItems = () => DIMS.flatMap(d => d.items);
+
+function level(st){
+  if (!st.scored) return {t:'Not started', bg:'#e6e8f0', fg:'#5d6177', line:'Rate the checks to see where our pay system stands.'};
+  if (st.pct >= 80) return {t:'Strong', bg:'#134f5c', fg:'#fff', line:'Our pay system is solid. The focus now is keeping it current.'};
+  if (st.pct >= 50) return {t:'Developing', bg:'#FFFF02', fg:'#16182b', line:'The basics are in place. Closing the gaps below will bring it in line with our strategy.'};
+  return {t:'Needs attention', bg:'#bf092f', fg:'#fff', line:'Key parts of the pay system are missing or weak. Start with the items below.'};
+}
+
+function ring(pct, color, size, track){
+  const r = 52, c = 2*Math.PI*r;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 120 120">
+    <circle class="bg" cx="60" cy="60" r="${r}" fill="none" stroke-width="12" ${track?`style="stroke:${track}"`:''}/>
+    <circle class="fg" cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="12" stroke-linecap="round"
+      stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${c.toFixed(2)}" data-target="${(c*(1-pct/100)).toFixed(2)}"/>
+  </svg>`;
+}
+function animateRings(root){
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    root.querySelectorAll('.fg[data-target]').forEach(el => el.style.strokeDashoffset = el.dataset.target);
+    root.querySelectorAll('[data-w]').forEach(el => el.style.width = el.dataset.w + '%');
+  }));
+}
+
+/* Tabs */
+function renderTabs(){
+  const html = DIMS.map((d,i) => `
+    <button class="tab" data-i="${i}" style="--c:${d.color}">
+      <span class="t"><span class="n">${i+1}</span><span><b>${d.short}</b><small>${d.ask}</small></span></span>
+      <span class="bar"><i></i></span>
+    </button>`).join('') + `
+    <button class="tab" data-i="4" style="--c:#16182b">
+      <span class="t"><span class="n" style="background:#FFFF02;color:#16182b">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+      </span><span><b>Results</b><small>Score and actions</small></span></span>
+      <span class="bar"><i></i></span>
+    </button>`;
+  $('#tabs').innerHTML = html;
+  $('#tabs').addEventListener('click', e => {
+    const b = e.target.closest('.tab'); if (!b) return;
+    go(+b.dataset.i);
+  });
+}
+
+function updateProgress(){
+  const all = stats(allItems());
+  $('#topFill').style.width = (all.answered/TOTAL*100) + '%';
+  $('#topCount').textContent = `${all.answered} of ${TOTAL} answered`;
+  const bars = document.querySelectorAll('.tab .bar i');
+  DIMS.forEach((d,i) => { bars[i].style.width = (stats(d.items).answered/d.items.length*100) + '%'; });
+  bars[4].style.width = (all.answered/TOTAL*100) + '%';
+  bars[4].style.background = '#FFFF02';
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === current));
+  renderSlip();
+}
+
+/* Hero payslip */
+function renderSlip(){
+  $('#slipRows').innerHTML = DIMS.map(d => {
+    const s = stats(d.items);
+    return `<div class="slip-row"><i style="background:${d.color}"></i><span>${d.title}</span><span class="v">${s.scored ? s.pct+'%' : '--'}</span>
+      <div class="mini"><span style="background:${d.color};width:${s.pct}%"></span></div></div>`;
+  }).join('');
+  const all = stats(allItems());
+  $('#slipTotal').textContent = all.scored ? all.pct + '%' : '--';
+  const lv = level(all);
+  const stamp = $('#slipStamp');
+  stamp.textContent = lv.t;
+  const col = lv.t === 'Developing' ? '#582fc1' : (lv.t === 'Not started' ? '#9aa0b4' : lv.bg);
+  stamp.style.color = col; stamp.style.borderColor = col;
+}
+
+/* Dimension panel */
+function renderDim(i){
+  const d = DIMS[i], s = stats(d.items);
+  const qs = d.items.map(it => {
+    const v = state.a[it.n] || '';
+    const note = state.notes[it.n] || '';
+    return `<article class="q ${v ? 's-'+v : ''}" data-n="${it.n}">
+      <div class="q-num">${it.n}</div>
+      <div>
+        <p class="q-text">${it.text}</p>
+        <div class="q-actions">
+          <div class="seg" role="group" aria-label="Rating for check ${it.n}">
+            ${STATUS.map(st => `<button class="${st.k}" data-s="${st.k}" aria-pressed="${v===st.k}">${st.label}</button>`).join('')}
+          </div>
+          <button class="note-btn" data-note>${note ? 'Edit note' : 'Add note'}</button>
+        </div>
+        <div class="note ${note ? 'open' : ''}"><div><textarea placeholder="What did you find? Which evidence did you see?" aria-label="Note for check ${it.n}">${esc(note)}</textarea></div></div>
+      </div>
+    </article>`;
+  }).join('');
+
+  const ev = d.ev.map((e,j) => {
+    const k = i + '-' + j, on = !!state.ev[k];
+    return `<button class="ev ${on?'on':''}" data-ev="${k}" aria-pressed="${on}"><span class="box"></span>${e}</button>`;
+  }).join('');
+
+  return `<div style="--c:${d.color}">
+    <div class="dhead" data-num="${i+1}">
+      <div>
+        <div class="lbl">Dimension ${i+1} of 4</div>
+        <h2>${d.title}</h2>
+        <div class="ask">${d.ask}</div>
+        <p>${d.obj}</p>
+      </div>
+      <div class="ring" id="dimRing">${ring(s.pct,'#FFFF02',132)}
+        <div class="val"><div><b id="dimPct">${s.scored ? s.pct+'%' : '--'}</b><small id="dimCount">${s.answered} of ${s.total} rated</small></div></div>
+      </div>
+    </div>
+    <div class="qs">${qs}</div>
+    <div class="evidence">
+      <h3>Evidence to review</h3>
+      <p>Mark each document once you have seen it.</p>
+      <div class="ev-list">${ev}</div>
+    </div>
+    <div class="pager">
+      <button class="pbtn" data-go="${i-1}" ${i===0?'hidden':''}>Previous</button>
+      <button class="pbtn main" data-go="${i+1}">${i===3 ? 'See results' : 'Next: ' + DIMS[i+1].short}</button>
+    </div>
+  </div>`;
+}
+
+function refreshDimHead(){
+  const d = DIMS[current], s = stats(d.items);
+  const r = 52, c = 2*Math.PI*r;
+  const fg = document.querySelector('#dimRing .fg');
+  if (fg) fg.style.strokeDashoffset = (c*(1-s.pct/100)).toFixed(2);
+  $('#dimPct').textContent = s.scored ? s.pct+'%' : '--';
+  $('#dimCount').textContent = `${s.answered} of ${s.total} rated`;
+}
+
+/* Results panel */
+function renderResults(){
+  const all = stats(allItems()), lv = level(all);
+  const cards = DIMS.map(d => {
+    const s = stats(d.items);
+    return `<div class="rcard" style="--c:${d.color}">
+      <div class="top"><h4>${d.title}</h4><span class="pct">${s.scored ? s.pct+'%' : '--'}</span></div>
+      <div class="bar"><i data-w="${s.pct}"></i></div>
+      <div class="meta">
+        <span style="--d:#134f5c">${s.c.yes} yes</span>
+        <span style="--d:#d4d400">${s.c.partial} partial</span>
+        <span style="--d:#bf092f">${s.c.no} no</span>
+        <span style="--d:#9aa0b4">${s.total - s.answered} not rated</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const gaps = [];
+  DIMS.forEach(d => d.items.forEach(it => {
+    const v = state.a[it.n];
+    if (v === 'no' || v === 'partial') gaps.push({d, it, v});
+  }));
+  gaps.sort((a,b) => (a.v === 'no' ? 0 : 1) - (b.v === 'no' ? 0 : 1) || a.it.n - b.it.n);
+  const list = gaps.length ? gaps.map(g => `
+    <div class="act" style="--c:${g.d.color}">
+      <span class="n">${g.it.n}</span>
+      <div><span class="d">${g.d.title}</span>${g.it.text}${state.notes[g.it.n] ? `<div class="nt">Note: ${esc(state.notes[g.it.n])}</div>` : ''}</div>
+      <span class="chip ${g.v==='no'?'c-no':'c-partial'}">${g.v==='no'?'No':'Partial'}</span>
+    </div>`).join('')
+    : `<div class="empty">${all.answered ? 'No gaps found in the checks rated so far.' : 'Items rated No or Partial will appear here as action points.'}</div>`;
+
+  const unrated = TOTAL - all.answered;
+  return `<div>
+    <div class="rhead">
+      <div class="ring">${ring(all.pct,'#FFFF02',170)}
+        <div class="val"><div><b>${all.scored ? all.pct+'%' : '--'}</b><small>overall score</small></div></div>
+      </div>
+      <div>
+        <span class="status" style="background:${lv.bg};color:${lv.fg}">${lv.t}</span>
+        <h2>Wages and salaries audit results</h2>
+        <p>${lv.line}${unrated ? ` ${unrated} ${unrated===1?'check is':'checks are'} still not rated.` : ''}</p>
+      </div>
+    </div>
+    <div class="rgrid">${cards}</div>
+    <div class="actions">
+      <h3>Items to act on</h3>
+      <p>Checks rated No come first, followed by checks rated Partial.</p>
+      ${list}
+    </div>
+    <div class="tools">
+      <button class="pbtn" data-go="3">Back to checklist</button>
+      <button class="pbtn" id="printBtn">Print results</button>
+      <button class="pbtn" id="resetBtn" style="color:#bf092f">Clear all answers</button>
+    </div>
+  </div>`;
+}
+
+/* Navigation */
+function go(i, scroll = true){
+  if (i < 0 || i > 4) return;
+  current = i;
+  const p = $('#panel');
+  p.innerHTML = i < 4 ? renderDim(i) : renderResults();
+  p.classList.remove('in'); void p.offsetWidth; p.classList.add('in');
+  animateRings(p);
+  updateProgress();
+  if (scroll){
+    const y = $('#tabs').getBoundingClientRect().top + window.scrollY - 60;
+    if (Math.abs(window.scrollY - y) > 40) window.scrollTo({top:y, behavior:'smooth'});
+  }
+}
+
+$('#panel').addEventListener('click', e => {
+  const seg = e.target.closest('.seg button');
+  if (seg){
+    const q = seg.closest('.q'), num = +q.dataset.n, s = seg.dataset.s;
+    if (state.a[num] === s) delete state.a[num]; else state.a[num] = s;
+    q.className = 'q' + (state.a[num] ? ' s-' + state.a[num] : '');
+    q.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === state.a[num]));
+    save(); refreshDimHead(); updateProgress();
+    return;
+  }
+  const nb = e.target.closest('[data-note]');
+  if (nb){
+    const box = nb.closest('.q').querySelector('.note');
+    box.classList.toggle('open');
+    if (box.classList.contains('open')) setTimeout(() => box.querySelector('textarea').focus(), 200);
+    return;
+  }
+  const ev = e.target.closest('[data-ev]');
+  if (ev){
+    const k = ev.dataset.ev;
+    state.ev[k] = !state.ev[k];
+    ev.classList.toggle('on', state.ev[k]);
+    ev.setAttribute('aria-pressed', state.ev[k]);
+    save(); return;
+  }
+  const g = e.target.closest('[data-go]');
+  if (g){ go(+g.dataset.go); return; }
+  if (e.target.id === 'printBtn'){ window.print(); return; }
+  if (e.target.id === 'resetBtn'){
+    if (confirm('Clear all ratings, notes, and evidence marks?')){
+      state = {a:{}, notes:{}, ev:{}}; save(); go(0);
+    }
+  }
+});
+
+$('#panel').addEventListener('input', e => {
+  if (e.target.tagName !== 'TEXTAREA') return;
+  const q = e.target.closest('.q'), num = +q.dataset.n, v = e.target.value.trim();
+  if (v) state.notes[num] = e.target.value; else delete state.notes[num];
+  q.querySelector('[data-note]').textContent = v ? 'Edit note' : 'Add note';
+  save();
+});
+
+document.addEventListener('keydown', e => {
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  if (tag === 'TEXTAREA' || tag === 'INPUT') return;
+  const auditTop = $('#audit').getBoundingClientRect().top;
+  if (auditTop > window.innerHeight * 0.6) return;
+  if (e.key === 'ArrowRight') go(Math.min(current + 1, 4));
+  if (e.key === 'ArrowLeft') go(Math.max(current - 1, 0));
+});
+
+/* Show top bar after the hero */
+const io = new IntersectionObserver(([en]) => $('#topbar').classList.toggle('show', !en.isIntersecting), {threshold:0.15});
+io.observe($('#top'));
+
+renderTabs();
+go(0, false);
+</script>
+</body>
+</html>
